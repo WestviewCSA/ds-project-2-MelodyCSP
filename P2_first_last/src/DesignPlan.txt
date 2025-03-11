@@ -7,17 +7,20 @@ you think you might have to do to finish this project
 
 
 1). read the specs - understand the project
-2). create the file with the path 
+2). create files with multiple paths 
 3). create a queue and stack for future implementation
-4). create test cases
-5). create a 2d array to store the maze
-6) create 3 methods each for queue, stack, and optimal path based algorithms 
+4). create a JUnit test case for future testing
+5) create 3 methods each for queue, stack, and optimal path based algorithms 
+6). create scanners in each method to scan the file
 7). implement variables to check command-line arguments(stack, queue, time, opt, etc.); all booleans
 8). implement variables to check for text based or coordinate based maps
-9). check for illegal characters, incomplete maps, etc. listed in the guide (text-map), and 
+9). implement code for queue
+10). when queue is finished, use the code for stack and make few adjustments (since both are similar concepts)
+11). implement code for optimal path algorithm 
+12). go back and check for illegal characters, incomplete maps, etc. listed in the guide (text-map), and 
 illegal characters, invalid coords, etc. (coord-based map)
-10). finish all 3 methods and test with test cases
-11). write the User-Defined-Exceptions listed in the guide 
-12). track run time by isolating the time it takes for the program to run
+13). finish all 3 methods and test with test cases
+14). write the User-Defined-Exceptions listed in the guide 
+15). track run time by isolating the time it takes for the program to run
  (excluding reading inputs/outputs)
  
