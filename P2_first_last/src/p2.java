@@ -100,7 +100,7 @@ public class p2 {
 	public void queuePath() {
 		
 		//create a queue to find the path
-		//Queue path = new Queue();
+		//Queue path = new Queue<Q>();
 		
 			
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
