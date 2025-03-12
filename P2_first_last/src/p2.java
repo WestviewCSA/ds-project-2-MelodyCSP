@@ -15,6 +15,10 @@ public class p2 {
 	private boolean isInCoord;
 	private boolean isOutCoord;
 	private boolean help; //will probably not need this in the future 
+	
+	//temporary until further clarification
+	//private static Tile[][] map;
+	
 
 	public static void main(String[] args) {
 		
@@ -28,14 +32,14 @@ public class p2 {
 		
 		
 		try {
-			File file = new File(filename);
+			File file = new File("Maps/" + filename);
 			Scanner scan = new Scanner(file);
 			
-			int numRows = scan.nextInt()
-;
-			int numCols = scan.nextInt()
-;
-			int rumRooms = scan.nextInt();
+			int numRows = scan.nextInt();
+			
+			int numCols = scan.nextInt();
+			
+			int numRooms = scan.nextInt();
 			
 			int rowIndex = 0;
 			
@@ -44,16 +48,28 @@ public class p2 {
 				//grab a line (one row of the map)
 				String row = scan.nextLine();
 				
-				if(row.length()>0) {
+				if(row.length() > 0) {
 					for(int i = 0; i < numCols && i < row.length(); i++) {
 						char el = row.charAt(i); 
 						Tile obj = new Tile(rowIndex, i, el);
 						
+						//map[rowIndex][i] = obj;
+						
 					}
+					
+					System.out.println(row);
+					
+					rowIndex++;
 				}
 				
 			}
-					
+			
+			
+			
+			scan.close();			
+		
+			
+			
 		
 		} catch (FileNotFoundException e) {
 			// handle exception
@@ -68,25 +84,11 @@ public class p2 {
 	 * Method for Stack based approach 
 	 */
 	
-	public void stackPath(File map) { //parameter for the map file (to choose different maps when called?)
+	public void stackPath() {
 		
 		//create a stack to find the correct path to the $
 		Stack path = new Stack();
-		
-		//create a scanner to scan the map files 
-		try {
-			Scanner scan = new Scanner(map);
-			
-			
-			
-			
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 	}
 	
 	
@@ -95,28 +97,11 @@ public class p2 {
 	 * Method for Queue based approach
 	 */
 	
-	public void queuePath(File map) { //parameter for the map file (to choose different maps when called?)
+	public void queuePath() {
 		
 		//create a queue to find the path
 		//Queue path = new Queue();
 		
-		//create a scanner to scan the map files 
-		try {
-			Scanner scan = new Scanner(map);
-			
-			//find the starting position first 
-			while(scan.next().equals("W")) {
-				scan.next();
-			}
-			
-			//enqueue the starting position
-			//path.add(scan.next());
-			
-			//? might not need?
-			scan.next();
-			
-			//dequeue the next location (step 1)
-			//path.remove(scan.next());
 			
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
 			
@@ -138,11 +123,7 @@ public class p2 {
 			
 			
 			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 	}
 	
@@ -152,20 +133,8 @@ public class p2 {
 	 * Must be faster than both runtimes for stack and queue combined
 	 */
 	
-	public void optPath(File map) { //parameter for the map file (to choose different maps when called?)
-		
-		try {
-			Scanner scan = new Scanner(map);
-			
-			
-			
-			
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void optPath() {
+	
 		
 	}
 	
