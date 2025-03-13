@@ -17,12 +17,12 @@ public class p2 {
 	private boolean help; //will probably not need this in the future 
 	
 	//temporary until further clarification
-	//private static Tile[][] map;
+	private static char[][] map;
 	
 
 	public static void main(String[] args) {
 		
-		readMap("test01");
+		readMap("testC02");
 		
 		
 		
@@ -43,6 +43,8 @@ public class p2 {
 			
 			int rowIndex = 0;
 			
+			map = new char[numRows][numCols];
+			
 			//process the map
 			while(scan.hasNextLine()) {
 				//grab a line (one row of the map)
@@ -53,7 +55,7 @@ public class p2 {
 						char el = row.charAt(i); 
 						Tile obj = new Tile(rowIndex, i, el);
 						
-						//map[rowIndex][i] = obj;
+						map[rowIndex][i] = el; //fill a 2D array to traverse later on
 						
 					}
 					
@@ -63,6 +65,8 @@ public class p2 {
 				}
 				
 			}
+			
+			//System.out.println(map);
 			
 			
 			
@@ -98,6 +102,10 @@ public class p2 {
 	 */
 	
 	public void queuePath() {
+		
+		//start tracking runtime at the start of the method 
+		
+		
 		
 		//create a queue to find the path
 		//Queue path = new Queue<Q>();
