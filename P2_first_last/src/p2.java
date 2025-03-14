@@ -144,7 +144,7 @@ public class p2 {
 			for(int j = 0; j < numCols; j++) {
 				if(map[i][j] == '+') {
 					//print out the element, row/col, and room number 
-					System.out.println("+ " + i%numRows + " "+ j + " " + numRooms );
+					System.out.println("+ " + i%numRows + " "+ j + " " + i/numRooms);
 				}
 			}
 		}
