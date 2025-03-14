@@ -1,8 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
+
 
 public class p2 {
 	
@@ -76,15 +75,25 @@ public class p2 {
 					if(row.length() > 0) {
 						//the char is always at the first column
 						char el = row.charAt(0); 
-						Tile obj = new Tile(rowIndex, 0, el);
+						
 						
 						//read the coords for the char/element
 						int rowCoord = scan.nextInt();
 						int colCoord = scan.nextInt();
 						int roomCoord = scan.nextInt();					
 						
-						map[rowCoord][colCoord] = el; //fill a 2D array to traverse later on
-					
+						//map[rowCoord][colCoord] = el; //fill a 2D array to traverse later on
+						
+						//fill in any empty spaces with "-"
+						for(int i = 0; i < numRows; i++) {
+							for(int j = 0; j < numCols; j++) {
+								if(Character.isWhitespace(map[i][j])) { //check if the space is empty
+									map[i][j] = '-';
+								}
+							}
+						}
+						
+											
 					}
 						
 					System.out.println(row);
@@ -118,8 +127,17 @@ public class p2 {
 	 */
 	public static void convertToCoord() {
 		
+		//this method will use sysout for now
 		
-		
+		//traverse through the map 2d array and get ONLY the "+"
+//		for(int i = 0; i < map.length; i++) {
+//			for(j = 0; j < map.length[0]; j++) {
+//				if(map[i][j].equals('+')) {
+//					//print out the element, row/col, and room number 
+//					System.out.println("+ " + i + " "+ j + " ");
+//				}
+//			}
+//		}
 		
 		
 	}
@@ -150,11 +168,11 @@ public class p2 {
 		
 		
 		//create a queue to find the path
-		//Queue path = new Queue<Q>();
+		Queue path = new Queue();
 		
 			
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
-			
+		
 			
 			
 			//check if any visited tiles hold the coin
