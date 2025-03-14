@@ -29,6 +29,10 @@ public class p2 {
 		isInCoord = true;
 		readMap("testC02");
 		
+		if(help) { //if the help switch is activated, print out a short informative message 
+			//describe what the program is supposed to do
+			System.out.println();
+		}
 		
 		
 	}
@@ -136,11 +140,11 @@ public class p2 {
 		//this method will use sysout for now
 		
 		//traverse through the map 2d array and get ONLY the "+"
-		for(int i = 0; i < numRows; i++) {
+		for(int i = 0; i < numRows*numRooms; i++) {
 			for(int j = 0; j < numCols; j++) {
 				if(map[i][j] == '+') {
 					//print out the element, row/col, and room number 
-					System.out.println("+ " + i + " "+ j + " ");
+					System.out.println("+ " + i%numRows + " "+ j + " " + numRooms );
 				}
 			}
 		}
@@ -186,8 +190,10 @@ public class p2 {
 			for(int i = 0; i < numRows; i++) {
 				for(int j = 0; j < numCols; j++) {
 					
-					if(!(map[i][j] == '@')) {
-						path.enqueu('-');
+					if(map[i][j] == '-') { //check for the walkable tile
+						path.enqueu('-'); //help
+					} else if(map[i][j] == '$') { //if the walkable tile has the '$'
+							
 					}
 					
 				}
