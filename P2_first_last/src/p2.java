@@ -17,6 +17,12 @@ public class p2 {
 	
 	//temporary until further clarification
 	private static char[][] map;
+
+	
+	//global variables to store #rows, cols, and rooms
+	static int numRows;
+	static int numCols;
+	static int numRooms;
 	
 
 	public static void main(String[] args) {
@@ -34,11 +40,11 @@ public class p2 {
 			File file = new File("Maps/" + filename);
 			Scanner scan = new Scanner(file);
 			
-			int numRows = scan.nextInt();
+			numRows = scan.nextInt();
 			
-			int numCols = scan.nextInt();
+			numCols = scan.nextInt();
 			
-			int numRooms = scan.nextInt();
+			numRooms = scan.nextInt();
 			
 			int rowIndex = 0;
 			
@@ -130,14 +136,14 @@ public class p2 {
 		//this method will use sysout for now
 		
 		//traverse through the map 2d array and get ONLY the "+"
-//		for(int i = 0; i < map.length; i++) {
-//			for(j = 0; j < map.length[0]; j++) {
-//				if(map[i][j].equals('+')) {
-//					//print out the element, row/col, and room number 
-//					System.out.println("+ " + i + " "+ j + " ");
-//				}
-//			}
-//		}
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numCols; j++) {
+				if(map[i][j] == '+') {
+					//print out the element, row/col, and room number 
+					System.out.println("+ " + i + " "+ j + " ");
+				}
+			}
+		}
 		
 		
 	}
@@ -168,11 +174,25 @@ public class p2 {
 		
 		
 		//create a queue to find the path
-		Queue path = new Queue();
+		Queue<Character> path = new Queue<Character>();
 		
+		//find the starting position ?
+		
+		
+		//enqueu the starting position first
+		path.enqueu('W');
 			
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
-		
+			for(int i = 0; i < numRows; i++) {
+				for(int j = 0; j < numCols; j++) {
+					
+					if(!(map[i][j] == '@')) {
+						path.enqueu('-');
+					}
+					
+				}
+			}
+			
 			
 			
 			//check if any visited tiles hold the coin
@@ -181,6 +201,7 @@ public class p2 {
 			
 			//if solution is found, print out the path 
 			
+		
 			//return nothing so method is completed
 			return;
 			
