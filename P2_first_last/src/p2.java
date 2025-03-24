@@ -178,26 +178,50 @@ public class p2 {
 		
 		
 		//create a queue to find the path
-		Queue<Character> path = new Queue<Character>();
+		Queue<Tile> history = new Queue<Tile>();
+		Queue<Tile> visited = new Queue<Tile>();
 		
-		//find the starting position ?
 		
-		
-		//enqueu the starting position first
-		path.enqueu('W');
-			
-			//enqueue all walkable tiles nearby (in order of North, South, East, West)
-			for(int i = 0; i < numRows; i++) {
-				for(int j = 0; j < numCols; j++) {
-					
-					if(map[i][j] == '-') { //check for the walkable tile
-						path.enqueu('-'); //help
-					} else if(map[i][j] == '$') { //if the walkable tile has the '$'
-							
-					}
+		//find the starting position 
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numCols; j++) {
+				if(map[i][j] == 'W') { //enqueu the starting position first
+					history.enqueu(new Tile(i, j, 'W'));
 					
 				}
 			}
+		}
+
+			
+		//enqueue all walkable tiles nearby (in order of North, South, East, West)
+		int row = history.peek().getRow();
+		int col = history.peek().getCol();
+		
+		if(row != 0) {
+			
+			if(map[row-1][col] != '@') { //check for the walkable tile
+				
+			 	history.enqueu(new Tile(row-1, col, '-')); 
+			}		
+			
+		} else if(row != numRows-1) {
+			if(map[row-1][col] != '@') { //check for the walkable tile
+				
+			 	history.enqueu(new Tile(row+1, col, '-')); //help
+			}	
+		} else if(col != 0) {
+			if(map[row][col-1] != '@') {
+				history.enqueu(new Tile(row, col-1, '-'));
+			}
+		} else {
+			if(col != numCols-1) {
+				if(map[row][col+1] != '@') {
+					history.enqueu(new Tile(row, col+1, '-'));
+				}
+			}
+		}
+		
+		
 			
 			
 			
@@ -214,13 +238,12 @@ public class p2 {
 			
 			//print the wolverine store is closed if solution DNE
 			//System.out.println("The Wolverine Store is closed.");
-			
-			
-			
-			
 		
 		
 	}
+	
+	
+	
 	
 	
 	/*
