@@ -188,7 +188,6 @@ public class p2 {
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numCols; j++) {
 				if(map[i][j] == 'W') { //enqueu the starting position first
-					history.enqueu(new Tile(i, j, 'W'));
 					visited.enqueu(new Tile(i, j, 'W'));
 					
 				}
@@ -255,7 +254,9 @@ public class p2 {
 			
 			//to construct the path, we will compare the W's coords with the $'s
 			//we will find the Tile in visited closest to the --> chain effect 
-			
+			if() {
+				
+			}
 			
 			//when the correct space in the path is found, dequeue from visited
 			space = visited.dequeue();
