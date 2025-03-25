@@ -194,29 +194,31 @@ public class p2 {
 				}
 			}
 		}
-
+		
+		int row = visited.peek().getRow();
+		int col = visited.peek().getCol();
 			
 		while(visited.peek().getType() != '$') {
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
-			int row = visited.peek().getRow();
-			int col = visited.peek().getCol();
+			
 			
 			if(row != 0) {
 				
 				if(map[row-1][col] != '@') { //check for the walkable tile
 					if(map[row-1][col] == '$') {
 						history.enqueu(new Tile(row-1, col, '$'));
+						break;
 					} else if(map[row-1][col] == '|') {
 						
 					} else {
 						
-				 	history.enqueu(new Tile(row-1, col, map[row-1][col])); 
+						history.enqueu(new Tile(row-1, col, map[row-1][col])); 
 					}
 				}
 				
 			}
 			if(row != numRows-1) {
-				if(map[row-1][col] != '@') { //check for the walkable tile
+				if(map[row+1][col] != '@') { //check for the walkable tile
 					
 				 	history.enqueu(new Tile(row+1, col, '-')); //help
 				}	
@@ -232,8 +234,11 @@ public class p2 {
 				}
 			}
 		
+			Tile temp = history.dequeue();
+			row = temp.getRow();
+			col = temp.getCol();
+			visited.enqueu(temp);
 			
-			visited.enqueu(history.dequeue());
 		
 		}
 		
@@ -241,7 +246,23 @@ public class p2 {
 		//if solution is found, find and print out the path 
 		char[][] solution = map;
 		
-		System.out.println(visited);
+		System.out.println(visited.peek());
+		
+		//make a temporary tile to store the '+'
+		Tile space = visited.peek();
+		
+		while(visited.peek() != null) {
+			
+			//to construct the path, we will compare the W's coords with the $'s
+			//we will find the Tile in visited closest to the --> chain effect 
+			
+			
+			//when the correct space in the path is found, dequeue from visited
+			space = visited.dequeue();
+			
+			//replace the walkway with the correct space 
+			map[space.getRow()][space.getCol()] = space.getType();
+		}
 		
 			
 		
@@ -260,13 +281,15 @@ public class p2 {
 			if(map[row][col] == '$') {
 				return new Tile(row, col, map[row][col]);
 			} else if(map[row][col] == '|') {
-				return new Tile()
+				return null;
+				//return new Tile()
 			} else {
 				
 		 	return new Tile(row, col, map[row][col]); 
 		 	
 			}
 		}
+		return null;
 		
 		
 	}
