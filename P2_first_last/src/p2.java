@@ -26,8 +26,10 @@ public class p2 {
 	
 
 	public static void main(String[] args) {
-		isInCoord = true;
-		readMap("testC02");
+		isInCoord = false;
+		readMap("test01");
+		queuePath();
+		
 		
 		if(help) { //if the help switch is activated, print out a short informative message 
 			//describe what the program is supposed to do
@@ -171,7 +173,7 @@ public class p2 {
 	 * Method for Queue based approach
 	 */
 	
-	public void queuePath() {
+	public static void queuePath() {
 		
 		//start tracking runtime at the start of the method 
 		
@@ -187,57 +189,84 @@ public class p2 {
 			for(int j = 0; j < numCols; j++) {
 				if(map[i][j] == 'W') { //enqueu the starting position first
 					history.enqueu(new Tile(i, j, 'W'));
+					visited.enqueu(new Tile(i, j, 'W'));
 					
 				}
 			}
 		}
 
 			
-		//enqueue all walkable tiles nearby (in order of North, South, East, West)
-		int row = history.peek().getRow();
-		int col = history.peek().getCol();
-		
-		if(row != 0) {
+		while(visited.peek().getType() != '$') {
+			//enqueue all walkable tiles nearby (in order of North, South, East, West)
+			int row = visited.peek().getRow();
+			int col = visited.peek().getCol();
 			
-			if(map[row-1][col] != '@') { //check for the walkable tile
+			if(row != 0) {
 				
-			 	history.enqueu(new Tile(row-1, col, '-')); 
-			}		
-			
-		} else if(row != numRows-1) {
-			if(map[row-1][col] != '@') { //check for the walkable tile
+				if(map[row-1][col] != '@') { //check for the walkable tile
+					if(map[row-1][col] == '$') {
+						history.enqueu(new Tile(row-1, col, '$'));
+					} else if(map[row-1][col] == '|') {
+						
+					} else {
+						
+				 	history.enqueu(new Tile(row-1, col, map[row-1][col])); 
+					}
+				}
 				
-			 	history.enqueu(new Tile(row+1, col, '-')); //help
-			}	
-		} else if(col != 0) {
-			if(map[row][col-1] != '@') {
-				history.enqueu(new Tile(row, col-1, '-'));
 			}
-		} else {
-			if(col != numCols-1) {
+			if(row != numRows-1) {
+				if(map[row-1][col] != '@') { //check for the walkable tile
+					
+				 	history.enqueu(new Tile(row+1, col, '-')); //help
+				}	
+			} 
+			if(col != 0) {
 				if(map[row][col+1] != '@') {
+					history.enqueu(new Tile(row, col-1, '-'));
+				}
+			} 
+			if(col != numCols-1) {
+				if(map[row][col-1] != '@') {
 					history.enqueu(new Tile(row, col+1, '-'));
 				}
 			}
+		
+			
+			visited.enqueu(history.dequeue());
+		
 		}
 		
 		
-			
-			
-			
-			//check if any visited tiles hold the coin
-			//if not, reset back to step 1
-			
-			
-			//if solution is found, print out the path 
+		//if solution is found, find and print out the path 
+		char[][] solution = map;
+		
+		System.out.println(visited);
+		
 			
 		
 			//return nothing so method is completed
-			return;
+			
 			
 			
 			//print the wolverine store is closed if solution DNE
 			//System.out.println("The Wolverine Store is closed.");
+		
+		
+	}
+		
+	public static Tile checkSpace(int row, int col) {
+		if(map[row][col] != '@') { //check for the walkable tile
+			if(map[row][col] == '$') {
+				return new Tile(row, col, map[row][col]);
+			} else if(map[row][col] == '|') {
+				return new Tile()
+			} else {
+				
+		 	return new Tile(row, col, map[row][col]); 
+		 	
+			}
+		}
 		
 		
 	}
