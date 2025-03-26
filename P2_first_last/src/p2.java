@@ -183,6 +183,8 @@ public class p2 {
 		Queue<Tile> history = new Queue<Tile>();
 		Queue<Tile> visited = new Queue<Tile>();
 		
+		boolean[][] hasVisited = new boolean[map.length][map[0].length];
+		
 		
 		//find the starting position 
 		for(int i = 0; i < numRows; i++) {
@@ -196,44 +198,71 @@ public class p2 {
 		
 		int row = visited.peek().getRow();
 		int col = visited.peek().getCol();
+		
+		int dollarRow;
+		int dollarCol;
 			
 		while(visited.peek().getType() != '$') {
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
 			
-			
-			if(row != 0) {
-				
-				if(map[row-1][col] != '@') { //check for the walkable tile
-					if(map[row-1][col] == '$') {
-						history.enqueu(new Tile(row-1, col, '$'));
-						break;
-					} else if(map[row-1][col] == '|') {
-						
-					} else {
-						
-						history.enqueu(new Tile(row-1, col, map[row-1][col])); 
-					}
-				}
-				
-			}
-			if(row != numRows-1) {
-				if(map[row+1][col] != '@') { //check for the walkable tile
+			Tile temp = checkSpace(hasVisited, row-1, col);
+			if(temp != null) { //check for the walkable tile
+				if(temp.getType() == '$') {
+					dollarRow = row-1;
+					dollarCol = col;
+					break;
+				//} else if(map[row-1][col] == '|') {
+				 
+				} else {
 					
-				 	history.enqueu(new Tile(row+1, col, '-')); //help
-				}	
-			} 
-			if(col != 0) {
-				if(map[row][col+1] != '@') {
-					history.enqueu(new Tile(row, col-1, '-'));
+					history.enqueu(temp); 		
 				}
-			} 
-			if(col != numCols-1) {
-				if(map[row][col-1] != '@') {
-					history.enqueu(new Tile(row, col+1, '-'));
+			}
+				
+			
+			temp = checkSpace(hasVisited, row+1, col);
+			if(temp != null) { //check for the walkable tile
+				if(temp.getType() == '$') {
+					dollarRow = row+1;
+					dollarCol = col;
+					break;
+				//} else if(map[row-1][col] == '|') {
+				 
+				} else {
+					
+					history.enqueu(temp); 		
+				}
+			}
+			
+			temp = checkSpace(hasVisited, row, col-1);
+			if(temp != null) { //check for the walkable tile
+				if(temp.getType() == '$') {
+					dollarRow = row;
+					dollarCol = col-1;
+					break;
+				//} else if(map[row-1][col] == '|') {
+				 
+				} else {
+					
+					history.enqueu(temp); 		
+				}
+			}
+			
+			temp = checkSpace(hasVisited, row, col+1);
+			if(temp != null) { //check for the walkable tile
+				if(temp.getType() == '$') {
+					dollarRow = row;
+					dollarCol = col+1;
+					break;
+				//} else if(map[row-1][col] == '|') {
+				 
+				} else {
+					
+					history.enqueu(temp); 		
 				}
 			}
 		
-			Tile temp = history.dequeue();
+			temp = history.dequeue();
 			row = temp.getRow();
 			col = temp.getCol();
 			visited.enqueu(temp);
@@ -248,26 +277,23 @@ public class p2 {
 		System.out.println(visited.peek());
 		
 		//make a temporary tile to store the '+'
-		Tile space = visited.peek();
-		
-		while(visited.peek() != null) {
-			
-			//to construct the path, we will compare the W's coords with the $'s
-			//we will find the Tile in visited closest to the --> chain effect 
-			if() {
-				
-			}
-			
-			//when the correct space in the path is found, dequeue from visited
-			space = visited.dequeue();
-			
-			//replace the walkway with the correct space 
-			map[space.getRow()][space.getCol()] = space.getType();
-		}
+//		Tile space = visited.peek();
+//		
+//		while(visited.peek() != null) {
+//			
+//			//to construct the path, we will compare the W's coords with the $'s
+//			//we will find the Tile in visited closest to the --> chain effect 
+//			
+//			
+//			//when the correct space in the path is found, dequeue from visited
+//			space = visited.dequeue();
+//			
+//		}
 		
 			
 		
 			//return nothing so method is completed
+			return; 
 			
 			
 			
@@ -277,17 +303,23 @@ public class p2 {
 		
 	}
 		
-	public static Tile checkSpace(int row, int col) {
-		if(map[row][col] != '@') { //check for the walkable tile
-			if(map[row][col] == '$') {
-				return new Tile(row, col, map[row][col]);
-			} else if(map[row][col] == '|') {
-				return null;
-				//return new Tile()
-			} else {
+	public static Tile checkSpace(boolean[][] hasVisited, int row, int col) {
+	 
+		if(row >= 0 && row < map.length && col >= 0 && col < map.length) { //check for the walkable tile
+			if(map[row][col] != '@' && !hasVisited[row][col]) {
+					
 				
-		 	return new Tile(row, col, map[row][col]); 
-		 	
+				if(map[row][col] == '$') {
+	
+					return new Tile(row, col, map[row][col]);
+				} else if(map[row][col] == '|') {
+					return null;
+					//return new Tile()
+				} else {
+					
+					return new Tile(row, col, map[row][col]); 
+			 	
+				}
 			}
 		}
 		return null;
