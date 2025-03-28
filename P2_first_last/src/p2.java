@@ -29,8 +29,16 @@ public class p2 {
 
 	public static void main(String[] args) {
 		isInCoord = false;
+		
+		//read the map first 
 		readMap("test01");
-		queuePath();
+		
+		
+		if(isQueue) {
+			queuePath(); 
+		} else if(isStack) {
+			stackPath();
+		}
 		
 		
 		if(help) { //if the help switch is activated, print out a short informative message 
@@ -44,16 +52,18 @@ public class p2 {
 	public static void readMap(String filename) {
 		
 		
-		try {
+		try { //scan the map
 			File file = new File("Maps/" + filename);
 			Scanner scan = new Scanner(file);
 			
+			//store the row, col, and rooms at the top of the map file 
 			numRows = scan.nextInt();
 			
 			numCols = scan.nextInt();
 			
 			numRooms = scan.nextInt();
 			
+			//row index to fill in the 2d map array
 			int rowIndex = 0;
 			
 			map = new char[numRows*numRooms][numCols];
@@ -61,19 +71,21 @@ public class p2 {
 			//process the map
 			while(scan.hasNextLine()) {
 				
-				if(!isInCoord) {
+				if(!isInCoord) { //not a coordinate map, can process it as regular 
 					//grab a line (one row of the map)
 					String row = scan.nextLine();
+					
 					
 					if(row.length() > 0) {
 						for(int i = 0; i < numCols && i < row.length(); i++) {
 							char el = row.charAt(i); 
 							Tile obj = new Tile(rowIndex, i, el);
 							
-							map[rowIndex][i] = el; //fill a 2D array to traverse later on
+							map[rowIndex][i] = el; //fill the 2D array to traverse later on
 							
 						}
 						
+						//print out the map to check if completed corretly 
 						System.out.println(row);
 						
 						rowIndex++;
@@ -166,13 +178,13 @@ public class p2 {
 	
 	public static void queuePath() {
 		
-		//start tracking runtime at the start of the method 
-		
 		
 		
 		//create a queue to find the path
 		Queue<Tile> history = new Queue<Tile>();
 		Queue<Tile> visited = new Queue<Tile>();
+		
+		//has visited boolean map to check what has already been visited 
 		
 		boolean[][] hasVisited = new boolean[map.length][map[0].length];
 		
@@ -188,46 +200,49 @@ public class p2 {
 			}
 		}
 		
+		//get the row and col of the tile we are checking around 
 		int row = visited.peek().getRow();
 		int col = visited.peek().getCol();
 		
 			
-		while(dollar.getType() != '$') {
+		while(dollar.getType() != '$') { // check if the dollar has been found 
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
 			
 			Tile temp = checkSpace(hasVisited, row-1, col);
-			if(temp.getType() != 'n') { //check for the walkable tile
-					
+			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
+				
+			
 				history.enqueu(temp); 		
 				
 			}
 				
 			
 			temp = checkSpace(hasVisited, row+1, col);
-			if(temp.getType() != 'n') { //check for the walkable tile
+			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null 
 				
 				history.enqueu(temp); 		
 			
 			}
 			
 			temp = checkSpace(hasVisited, row, col-1);
-			if(temp.getType() != 'n') { //check for the walkable tile
+			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
 			
 				history.enqueu(temp); 		
 				
 			}
 			
 			temp = checkSpace(hasVisited, row, col+1);
-			if(temp.getType() != 'n') { //check for the walkable tile
+			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
 				
 				history.enqueu(temp); 		
 				
 			}
 			
-			Tile tempSwitch = history.dequeue();
-			row = tempSwitch.getRow();
-			col = tempSwitch.getCol();
-			visited.enqueu(tempSwitch);
+			//dequeue the least recent history tile to visited queue
+			//update the row and col variables for next tile to check around
+			visited.enqueu(history.dequeue());
+			row = visited.peek().getRow();
+			col = visited.peek().getCol();
 			
 		
 		}
@@ -236,7 +251,6 @@ public class p2 {
 		//if solution is found, find and print out the path 
 		char[][] solution = map;
 		
-		System.out.println("hi");
 		
 		//make a temporary tile to store the '+'
 //		Tile space = visited.peek();
@@ -270,7 +284,7 @@ public class p2 {
 		if(row >= 0 && row < map.length && col >= 0 && col < map.length) { //check for the walkable tile
 			if(map[row][col] != '@' && hasVisited[row][col] != true) {
 					
-				
+				//check if the space being checked is the $
 				if(map[row][col] == '$') {
 					//found where dollar is located
 					dollar.setCol(col);
@@ -278,6 +292,7 @@ public class p2 {
 					dollar.setType('$');
 				} 
 				
+				//make sure the space is tracked in hasVisited
 				hasVisited[row][col] = true;
 				return new Tile(row, col, map[row][col]); 
 			}
@@ -327,7 +342,7 @@ public class p2 {
 				//enqueue all walkable tiles nearby (in order of North, South, East, West)
 					
 				Tile temp = checkSpace(hasVisited, row-1, col);
-				if(temp.getType() != 'n') { //check for the walkable tile
+				if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
 							
 					history.push(temp); 		
 						
@@ -335,21 +350,21 @@ public class p2 {
 						
 					
 				temp = checkSpace(hasVisited, row+1, col);
-				if(temp.getType() != 'n') { //check for the walkable tile
+				if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
 						
 					history.push(temp); 		
 					
 				}
 					
 				temp = checkSpace(hasVisited, row, col-1);
-				if(temp.getType() != 'n') { //check for the walkable tile
+				if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
 					
 					history.push(temp); 		
 					
 				}
 					
 				temp = checkSpace(hasVisited, row, col+1);
-				if(temp.getType() != 'n') { //check for the walkable tile
+				if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
 					
 					history.push(temp); 		
 						
@@ -360,8 +375,8 @@ public class p2 {
 					holderStack.push(history.pop());
 				}
 				
-				//store the last variable 
-				Tile tempSwitch = holderStack.pop();
+				//push last history tile to visited 
+				visited.push(holderStack.pop());
 				
 				//restore the history stack
 				for(int i = 0; i < holderStack.size(); i++) {
@@ -370,9 +385,8 @@ public class p2 {
 				
 				
 				//update row and col variables
-				row = tempSwitch.getRow();
-				col = tempSwitch.getCol();
-				visited.push(tempSwitch);
+				row = visited.peek().getRow();
+				col = visited.peek().getCol();
 					
 				
 			}
