@@ -24,7 +24,7 @@ public class p2 {
 	static int numRows;
 	static int numCols;
 	static int numRooms;
-	static Tile dollar;
+	static Tile dollar = new Tile(0, 0, 'n');
 	
 
 	public static void main(String[] args) {
@@ -158,17 +158,6 @@ public class p2 {
 	
 	
 	
-	/*
-	 * Method for Stack based approach 
-	 */
-	
-	public void stackPath() {
-		
-		//create a stack to find the correct path to the $
-		Stack path = new Stack();
-
-	}
-	
 	
 	
 	/*
@@ -203,11 +192,11 @@ public class p2 {
 		int col = visited.peek().getCol();
 		
 			
-		while(visited.peek().getType() != '$') {
+		while(dollar.getType() != '$') {
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
 			
 			Tile temp = checkSpace(hasVisited, row-1, col);
-			if(temp != null) { //check for the walkable tile
+			if(temp.getType() != 'n') { //check for the walkable tile
 					
 				history.enqueu(temp); 		
 				
@@ -215,21 +204,21 @@ public class p2 {
 				
 			
 			temp = checkSpace(hasVisited, row+1, col);
-			if(temp != null) { //check for the walkable tile
+			if(temp.getType() != 'n') { //check for the walkable tile
 				
 				history.enqueu(temp); 		
 			
 			}
 			
 			temp = checkSpace(hasVisited, row, col-1);
-			if(temp != null) { //check for the walkable tile
+			if(temp.getType() != 'n') { //check for the walkable tile
 			
 				history.enqueu(temp); 		
 				
 			}
 			
 			temp = checkSpace(hasVisited, row, col+1);
-			if(temp != null) { //check for the walkable tile
+			if(temp.getType() != 'n') { //check for the walkable tile
 				
 				history.enqueu(temp); 		
 				
@@ -284,19 +273,139 @@ public class p2 {
 				
 				if(map[row][col] == '$') {
 					//found where dollar is located
-					dollar = new Tile(row, col, '$');
+					dollar.setCol(col);
+					dollar.setRow(row);
+					dollar.setType('$');
 				} 
 				
 				hasVisited[row][col] = true;
 				return new Tile(row, col, map[row][col]); 
 			}
 		}
-		return null;
+		return new Tile(0, 0, 'n'); //n for null 
 		
 		
 	}
 	
 	
+	
+	/*
+	 * Method for Stack based approach 
+	 */
+	
+	public static void stackPath () {
+		
+		//start tracking runtime at the start of the method 
+		
+		
+		
+			//create a queue to find the path
+			Stack<Tile> history = new Stack<Tile>();
+			Stack<Tile> visited = new Stack<Tile>();
+			
+			//temporary stack to get last element in the stack 
+			Stack<Tile> holderStack = new Stack<Tile>(); 
+				
+			boolean[][] hasVisited = new boolean[map.length][map[0].length];
+				
+				
+				
+			//find the starting position 
+			for(int i = 0; i < numRows; i++) {
+				for(int j = 0; j < numCols; j++) {
+					if(map[i][j] == 'W') { //enqueu the starting position first
+						visited.push(new Tile(i, j, 'W'));
+						
+					}
+				}
+			}
+				
+			int row = visited.peek().getRow();
+			int col = visited.peek().getCol();
+				
+			while(dollar.getType() != '$') {
+				//enqueue all walkable tiles nearby (in order of North, South, East, West)
+					
+				Tile temp = checkSpace(hasVisited, row-1, col);
+				if(temp.getType() != 'n') { //check for the walkable tile
+							
+					history.push(temp); 		
+						
+				}
+						
+					
+				temp = checkSpace(hasVisited, row+1, col);
+				if(temp.getType() != 'n') { //check for the walkable tile
+						
+					history.push(temp); 		
+					
+				}
+					
+				temp = checkSpace(hasVisited, row, col-1);
+				if(temp.getType() != 'n') { //check for the walkable tile
+					
+					history.push(temp); 		
+					
+				}
+					
+				temp = checkSpace(hasVisited, row, col+1);
+				if(temp.getType() != 'n') { //check for the walkable tile
+					
+					history.push(temp); 		
+						
+				}
+				
+				//use another stack to get the oldest element in the stack
+				for(int i = 0; i < history.size(); i++) {
+					holderStack.push(history.pop());
+				}
+				
+				//store the last variable 
+				Tile tempSwitch = holderStack.pop();
+				
+				//restore the history stack
+				for(int i = 0; i < holderStack.size(); i++) {
+					history.push(holderStack.pop());
+				}
+				
+				
+				//update row and col variables
+				row = tempSwitch.getRow();
+				col = tempSwitch.getCol();
+				visited.push(tempSwitch);
+					
+				
+			}
+			
+			
+			//if solution is found, find and print out the path 
+			char[][] solution = map;
+				
+			System.out.println("hi");
+				
+				//make a temporary tile to store the '+'
+//				Tile space = visited.peek();
+//				
+//				while(visited.peek() != null) {
+//					
+//					//to construct the path, we will compare the W's coords with the $'s
+//					//we will find the Tile in visited closest to the --> chain effect 
+//					
+//					
+//					//when the correct space in the path is found, dequeue from visited
+//					space = visited.dequeue();
+//					
+//				}
+				
+					
+			//return nothing so method is completed
+			return; 
+			
+									
+			//print the wolverine store is closed if solution DNE
+			//System.out.println("The Wolverine Store is closed.");
+				
+	}
 	
 	
 	
