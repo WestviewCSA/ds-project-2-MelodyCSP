@@ -33,6 +33,8 @@ public class p2 {
 		//read the map first 
 		readMap("test01");
 		
+		isQueue = true;
+		
 		
 		if(isQueue) {
 			queuePath(); 
@@ -187,6 +189,12 @@ public class p2 {
 		//has visited boolean map to check what has already been visited 
 		
 		boolean[][] hasVisited = new boolean[map.length][map[0].length];
+		for(int i = 0; i < map.length; i++) {
+			for(int j = 0; j < map[0].length; j++) {
+				hasVisited[i][j] = false;
+			}
+			
+		}
 		
 		
 		
@@ -209,7 +217,7 @@ public class p2 {
 			//enqueue all walkable tiles nearby (in order of North, South, East, West)
 			
 			Tile temp = checkSpace(hasVisited, row-1, col);
-			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
+			if(temp != null) { //check for the walkable tile, n returned for null
 				
 			
 				history.enqueu(temp); 		
@@ -218,21 +226,21 @@ public class p2 {
 				
 			
 			temp = checkSpace(hasVisited, row+1, col);
-			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null 
+			if(temp != null) { //check for the walkable tile, n returned for null 
 				
 				history.enqueu(temp); 		
 			
 			}
 			
 			temp = checkSpace(hasVisited, row, col-1);
-			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
+			if(temp != null) { //check for the walkable tile, n returned for null
 			
 				history.enqueu(temp); 		
 				
 			}
 			
 			temp = checkSpace(hasVisited, row, col+1);
-			if(temp.getType() != 'n') { //check for the walkable tile, n returned for null
+			if(temp != null) { //check for the walkable tile, n returned for null
 				
 				history.enqueu(temp); 		
 				
@@ -251,6 +259,7 @@ public class p2 {
 		//if solution is found, find and print out the path 
 		char[][] solution = map;
 		
+		System.out.println(visited);
 		
 		//make a temporary tile to store the '+'
 //		Tile space = visited.peek();
@@ -297,7 +306,7 @@ public class p2 {
 				return new Tile(row, col, map[row][col]); 
 			}
 		}
-		return new Tile(0, 0, 'n'); //n for null 
+		return null; //return null if space is not valid 
 		
 		
 	}
